@@ -3,9 +3,9 @@ import os
 import sqlite3
 from flask import Flask, render_template, request, redirect, send_from_directory
 from PIL import Image
-import pytesseract
+#import pytesseract
 
-pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
+#pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 
 # 🟢 Create app FIRST
 app = Flask(__name__)
@@ -123,7 +123,7 @@ def upload():
             file.save(filepath)
 
             # OCR
-            text = pytesseract.image_to_string(Image.open(filepath))
+           text = "TEST123"
 
             # Save to DB
             conn = sqlite3.connect("database.db")
