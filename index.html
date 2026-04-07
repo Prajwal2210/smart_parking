@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Password Manager</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-dark text-white">
+
+<div class="container mt-5">
+
+    <!-- 🔝 Navbar -->
+    <div class="d-flex justify-content-between mb-4">
+        <h3>🔐 Password Manager</h3>
+        <div>
+            <span>Welcome, {{ session['user'] }} 👋</span>
+            <a href="/logout" class="btn btn-danger btn-sm ms-2">Logout</a>
+        </div>
+    </div>
+
+    <!-- 🎯 Generator Card -->
+    <div class="card p-4 shadow-lg mb-4">
+        <h4 class="mb-3">Generate Password</h4>
+
+        <form method="POST">
+            <input type="number" name="length" class="form-control mb-3" placeholder="Enter length" required>
+
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="letters"> Letters
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="digits"> Numbers
+            </div>
+            <div class="form-check mb-3">
+                <input class="form-check-input" type="checkbox" name="symbols"> Symbols
+            </div>
+
+            <button class="btn btn-success w-100">Generate</button>
+        </form>
+
+        {% if password %}
+        <div class="mt-3">
+            <input class="form-control text-center mb-2" value="{{ password }}" readonly>
+            <p>Strength: <b>{{ strength }}</b></p>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- 📜 History Card -->
+    <div class="card p-4 shadow-lg">
+        <div class="d-flex justify-content-between mb-2">
+            <h5>📜 Password History</h5>
+            <div>
+                <a href="/download" class="btn btn-success btn-sm">Download</a>
+                <a href="/clear_history" class="btn btn-warning btn-sm">Clear</a>
+            </div>
+        </div>
+
+        {% if history %}
+            <ul class="list-group">
+                {% for item in history %}
+                    <li class="list-group-item">{{ item[0] }}</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No history yet</p>
+        {% endif %}
+    </div>
+
+</div>
+
+</body>
+</html>
