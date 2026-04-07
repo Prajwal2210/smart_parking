@@ -115,15 +115,23 @@ def exit_vehicle(id):
 def upload():
     if "user" not in session:
         return redirect("/login")
-    if request.method == "POST":
-        file = request.files["image"]
 
-        if file:
-            filepath = os.path.join(app.config["UPLOAD_FOLDER"], file.filename)
+    if request.method == "POST":
+        file = request.files.get("image")
+
+        if file and file.filename != "":
+            filename = file.filename
+
+            # Save file
+            filepath = os.path.join("uploads", filename)
+
+            # Ensure folder exists
+            os.makedirs("uploads", exist_ok=True)
+
             file.save(filepath)
 
-            # OCR
-            text = "TEST123"   # temporary for deployment
+            # ❌ Disable OCR for deployment
+            text = "TEST123"
 
             # Save to DB
             conn = sqlite3.connect("database.db")
@@ -133,7 +141,7 @@ def upload():
             conn.commit()
             conn.close()
 
-            return render_template("upload.html", image=file.filename, plate=text)
+            return render_template("upload.html", image=filename, plate=text)
 
     return render_template("upload.html")
 @app.route("/logout")
